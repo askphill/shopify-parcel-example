@@ -1,0 +1,31 @@
+@import "@splidejs/splide/dist/css/splide-core.min.css";
+@import "styles/import";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: Inter;
+  font-display: swap;
+  font-weight: 400;
+  src: url("Inter-Regular.woff2") format("woff2"),
+    url("Inter-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: Inter;
+  font-display: swap;
+  font-weight: 700;
+  src: url("Inter-Bold.woff2") format("woff2"),
+    url("Inter-Bold.woff") format("woff");
+}
+
+body {
+  font-family: Inter;
+  font-weight: 400;
+
+  .css-nesting {
+    color: white;
+  }
+}

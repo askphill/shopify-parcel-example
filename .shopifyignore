@@ -1,0 +1,12 @@
+node_modules/
+.parcel-cache/
+.vscode/
+src/
+
+package.json
+package-lock.json
+.parcelrc
+.postcssrc
+tailwind.config.js
+.gitignore
+tsconfig.json

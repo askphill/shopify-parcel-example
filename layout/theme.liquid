@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopify Parcel</title>
+
+    {{ content_for_header }}
+
+    {%- capture prefix -%}{%- render 'asset-prefix' -%}{%- endcapture -%}
+
+    {%- # Scripts -%}
+    <script src="{{ 'main.js' | prepend: prefix | asset_url }}" type="module" defer="defer"></script>
+
+    {%- # Styles -%}
+    {{ 'main.css' | prepend: prefix | asset_url | stylesheet_tag: preload: true }}
+
+    {%- # Preload fonts -%}
+    {{- 'Inter-Regular.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: true -}}
+    {{- 'Inter-Bold.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: true -}}
+
+    {%- # Preload images -%}
+    <link
+      rel="icon"
+      href="{{ 'favicon.ico' | asset_url }}"
+    >
+  </head>
+  <body class="p-8 bg-gray-900 text-sm text-white">
+    <section class="space-y-6">
+      <h1 class="font-bold">Shopify Parcel</h1>
+      <p>
+        📂 <span class="bg-gray-700 w-fit rounded px-1 py-0.5">{{ prefix }}</span>
+      </p>
+      <ul class="text-white/50 [&>li]:before:content-['⏳'] [&>li]:before:mr-1.5 [&>li[data-active]]:text-white [&>li[data-active]]:before:content-['✅']">
+        <li class="css" data-active>
+          {{- 'CSS (Tailwind), <span class="text-white/50 css-imports">imports</span> and <span class="text-white/50 css-nesting">nesting</span>' -}}
+        </li>
+        <li class="js">Javascript bundle</li>
+        <li class="js-dynamic">Javascript dynamic import</li>
+        <li class="js-dynamic-module">
+          {{- 'Javascript dynamic import from <span class="bg-gray-700 w-fit rounded px-1 py-0.5">node_modules</span>' }}
+        </li>
+      </ul>
+    </section>
+
+    {{ content_for_layout }}
+  </body>
+</html>

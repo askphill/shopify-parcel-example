@@ -1,0 +1,23 @@
+{
+  "name": "basic",
+  "type": "module",
+  "scripts": {
+    "start": "shopify theme dev --store wiebe-checkout -x *.css.map",
+    "build": "shopify-parcel build",
+    "build:dev": "shopify-parcel build",
+    "watch": "shopify-parcel watch"
+  },
+  "shopify-parcel": {
+    "entries": [
+      "src/*.{js,ts,css}",
+      "src/elements/*.{js,ts,css}"
+    ]
+  },
+  "devDependencies": {
+    "@askphill/shopify-parcel": "file:../packages/shopify-parcel",
+    "tailwindcss": "^3.3.5"
+  },
+  "dependencies": {
+    "@splidejs/splide": "^4.1.4"
+  }
+}
