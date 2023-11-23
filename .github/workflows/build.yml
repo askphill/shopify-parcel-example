@@ -1,0 +1,33 @@
+name: Compile assets
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - '**.liquid'
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - 'src/**'
+      - '**.liquid'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+      - name: Install packages
+        run: npm ci
+      - name: Compile Assets
+        run: npm run build
+      - name: Commit and Push changes
+        uses: EndBug/add-and-commit@v7.2.1
+        with:
+          author_name: 'Shopify Wizard 🧙🏼‍♂️'
+          author_email: phill@askphill.com
+          message: 'chore: Compile source files ✨'
