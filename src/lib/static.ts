@@ -1,0 +1,1 @@
+window.static = true;
