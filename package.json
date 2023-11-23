@@ -4,7 +4,7 @@
   "scripts": {
     "start": "shopify theme dev --store shoparcel -x *.css.map",
     "build": "shopify-parcel build",
-    "build:dev": "shopify-parcel build",
+    "build:dev": "shopify-parcel build:dev",
     "watch": "shopify-parcel watch"
   },
   "shopify-parcel": {
@@ -14,7 +14,7 @@
     ]
   },
   "devDependencies": {
-    "@askphill/shopify-parcel": "file:../packages/shopify-parcel",
+    "@askphill/shopify-parcel": "^3.0.1",
     "tailwindcss": "^3.3.5"
   },
   "dependencies": {
