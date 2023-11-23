@@ -14,7 +14,7 @@
     ]
   },
   "devDependencies": {
-    "@askphill/shopify-parcel": "^3.0.1",
+    "@askphill/shopify-parcel": "*",
     "tailwindcss": "^3.3.5"
   },
   "dependencies": {
