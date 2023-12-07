@@ -1,6 +1,5 @@
 {
   "name": "basic",
-  "type": "module",
   "scripts": {
     "start": "shopify theme dev --store shoparcel -x *.css.map",
     "build": "shopify-parcel build",
