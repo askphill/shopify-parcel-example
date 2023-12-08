@@ -8,8 +8,7 @@
   },
   "shopify-parcel": {
     "entries": [
-      "src/*.{js,ts,css}",
-      "src/elements/*.{js,ts,css}"
+      "src/*.{js,ts,css}"
     ]
   },
   "devDependencies": {
