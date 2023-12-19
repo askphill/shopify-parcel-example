@@ -8,18 +8,20 @@ customElements.define(
             .parseFromString(sections["cart-drawer"], "text/html")
             .querySelector("cart-drawer");
 
-          const hasChangedItems = !Array.from(
-            html.querySelectorAll('[data-target="cart-drawer.item"]')
-          ).length || Array.from(
-            html.querySelectorAll('[data-target="cart-drawer.item"]')
-          ).some(
-            (i) =>
-              !this.querySelector(
-                `[data-target="cart-drawer.item"][data-index="${i.getAttribute(
-                  "data-index"
-                )}"][data-key="${i.getAttribute("data-key")}"]`
-              )
-          );
+          const hasChangedItems =
+            !Array.from(
+              html.querySelectorAll('[data-target="cart-drawer.item"]')
+            ).length ||
+            Array.from(
+              html.querySelectorAll('[data-target="cart-drawer.item"]')
+            ).some(
+              (i) =>
+                !this.querySelector(
+                  `[data-target="cart-drawer.item"][data-index="${i.getAttribute(
+                    "data-index"
+                  )}"][data-key="${i.getAttribute("data-key")}"]`
+                )
+            );
 
           if (hasChangedItems) {
             this.querySelector('[data-target="cart-drawer.items"]').replaceWith(
@@ -60,29 +62,32 @@ customElements.define(
         }
       });
 
-      this.querySelector("form").addEventListener("change", async (e) => {
-        const item = e.target.closest('[data-target="cart-drawer.item"]');
-        const form = e.target.form;
+      this.querySelector("form").addEventListener(
+        "change",
+        debounce(async (e) => {
+          const item = e.target.closest('[data-target="cart-drawer.item"]');
+          const form = e.target.form;
 
-        item.toggleAttribute("data-loading", true);
-        form.toggleAttribute("data-loading", true);
+          item.toggleAttribute("data-loading", true);
+          form.toggleAttribute("data-loading", true);
 
-        const cart = await fetch(`${routes.cart_change_url}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            line: e.target.dataset.index,
-            quantity: e.target.value,
-            sections: ["cart-drawer"],
-            sections_url: window.location.pathname,
-          }),
-        }).then((r) => r.json());
+          const cart = await fetch(`${routes.cart_change_url}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify({
+              line: e.target.dataset.index,
+              quantity: e.target.value,
+              sections: ["cart-drawer"],
+              sections_url: window.location.pathname,
+            }),
+          }).then((r) => r.json());
 
-        publish("cartUpdate", cart);
-      });
+          publish("cartUpdate", cart);
+        }, 500)
+      );
     }
 
     disconnectedCallback() {

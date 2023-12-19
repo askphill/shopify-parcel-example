@@ -43,92 +43,25 @@
         </button>
       </div>
     </header>
-    <section data-target="cart-drawer.items" class="grow overflow-auto group-data-[loading]/cart:pointer-events-none">
-      {% for line in cart.items %}
-        <article
-          data-target="cart-drawer.item"
-          class="group/item border-t px-4 lg:px-12 py-8 flex gap-4"
-          data-index="{{ line.index | plus: 1 }}"
-          data-key="{{ line.key }}"
-        >
-          <picture class="bg-gray-100 shrink-0">
-            {{ line.image | image_url: width: 100 | image_tag }}
-          </picture>
-          <div class="space-y-2 w-full" data-target="cart-drawer.item-details">
-            <div class='flex w-full'>
-              <p>
-                {{ line.title }}
-              </p>
-              <p class="ml-auto block">
-                {{ line.final_line_price | money }}
-              </p>
+    <div class="grow flex flex-col">
+      <section
+        data-target="cart-drawer.items"
+        class="grow overflow-auto group-data-[loading]/cart:cursor-wait "
+      >
+        {% render 'cart-items' %}
+      </section>
+      {% if cart.item_count > 0 %}
+        <footer class="px-4 py-6 lg:p-12 border-t empty:border-none flex flex-col">
+          {%- if cart.item_count > 0 %}
+            <div class="text-xl flex mb-8">
+              <span>Total</span> <span class="ml-auto">{{ cart.total_price | money }}</span>
             </div>
-            <quantity-input class="flex flex-col gap-2 h-fit">
-              <div class="flex gap-0.5">
-                <button
-                  type="button"
-                  name="minus"
-                  {% if line.variant.quantity_rule.min and line.quantity <= line.variant.quantity_rule.min %}
-                    disabled
-                  {% endif %}
-                  class="inline-flex items-center justify-center align-middle rounded-md border border-gray-200 text-black w-6 disabled:text-gray-200 aspect-square text-xs"
-                >
-                  -
-                </button>
-                <input
-                  class="inline-flex items-center text-center justify-center text-xs align-middle bg-white text-black w-6 aspect-square [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                  type="number"
-                  disabled
-                  name="updates[]"
-                  value="{{ line.quantity }}"
-                  {% # theme-check-disable %}
-                  data-cart-quantity="{{ cart | item_count_for_variant: line.variant.id }}"
-                  min="{{ line.variant.quantity_rule.min }}"
-                  {% if line.variant.quantity_rule.max != null %}
-                    max="{{ line.variant.quantity_rule.max }}"
-                  {% endif %}
-                  step="{{ line.variant.quantity_rule.increment }}"
-                  {% # theme-check-enable %}
-                  id="Quantity-{{ line.index | plus: 1 }}"
-                  data-index="{{ line.index | plus: 1 }}"
-                >
-                <button
-                  type="button"
-                  name="plus"
-                  {% if line.variant.quantity_rule.max and line.quantity >= line.variant.quantity_rule.max %}
-                    disabled
-                  {% endif %}
-                  class="inline-flex items-center justify-center align-middle rounded-md border w-6 aspect-square text-xs border-gray-200 text-black w-6 disabled:text-gray-200"
-                >
-                  <span class='group-data-[loading]/item:animate-spin block'>+</span>
-                </button>
-              </div>
-              <button
-                type="button"
-                name="remove"
-                class="inline-flex w-fit underline text-xs"
-              >
-                Remove
-              </button>
-            </quantity-input>
-          </div>
-        </article>
-      {% else %}
-        <div class="px-4 lg:px-12 space-y-4">
-          <p>Your cart is empty.</p>
-          <a href="{{ routes.shop_url }}" class="bg-black block text-white rounded-md py-2 px-4 w-fit"> Shop </a>
-        </div>
-      {% endfor %}
-    </section>
-    <footer class="px-4 py-6 lg:p-12 border-t empty:border-none flex flex-col">
-      {%- if cart.item_count > 0 %}
-        <div class="text-xl flex mb-8">
-          <span>Total</span> <span class="ml-auto">{{ cart.total_price | money }}</span>
-        </div>
-        <button type="submit" name="checkout" class="bg-black text-white rounded-md py-2 px-4 ml-auto w-fit">
-          Checkout
-        </button>
-      {% endif -%}
-    </footer>
+            <button type="submit" name="checkout" class="bg-black text-white rounded-md py-2 px-4 ml-auto w-fit">
+              Checkout
+            </button>
+          {% endif -%}
+        </footer>
+      {% endif %}
+    </div>
   </form>
 </cart-drawer>

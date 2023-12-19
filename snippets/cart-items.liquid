@@ -1,0 +1,150 @@
+<form
+  action="{{ routes.cart_url }}"
+  method="post"
+  class='flex flex-col gap-8'
+>
+  {% for item in cart.items %}
+    <fieldset
+      class="grid grid-cols-[20%_minmax(0,_1fr)] gap-4 py-8 border-t px-4 lg:px-12 "
+      data-target="cart-drawer.item"
+      data-index="{{ item.index | plus: 1 }}"
+      data-key="{{ item.key }}"
+    >
+      <picture class="aspect-square">
+        {{ item.image | image_url: width: 150 | image_tag: class: 'object-contain w-full h-full' }}
+      </picture>
+      <div class="flex" data-target="cart-drawer.item-details">
+        <div>
+          <p class="mb-2">
+            {{ item.title }}
+          </p>
+          <quantity-input class="flex flex-col gap-2 h-fit group-data-[loading]/cart:pointer-events-none">
+            <div class="flex gap-0.5">
+              <button
+                type="button"
+                name="minus"
+                {% if item.variant.quantity_rule.min and item.quantity <= item.variant.quantity_rule.min %}
+                  disabled
+                {% endif %}
+                class="inline-flex items-center justify-center align-middle rounded-md border border-gray-200 text-black w-6 disabled:text-gray-200 aspect-square text-xs"
+              >
+                -
+              </button>
+              <input
+                class="inline-flex items-center text-center justify-center text-xs align-middle bg-white text-black w-6 aspect-square [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                type="number"
+                disabled
+                name="updates[]"
+                value="{{ item.quantity }}"
+                {% # theme-check-disable %}
+                data-cart-quantity="{{ cart | item_count_for_variant: item.variant.id }}"
+                min="{{ item.variant.quantity_rule.min }}"
+                {% if item.variant.quantity_rule.max != null %}
+                  max="{{ item.variant.quantity_rule.max }}"
+                {% endif %}
+                step="{{ item.variant.quantity_rule.increment }}"
+                {% # theme-check-enable %}
+                id="Quantity-{{ item.index | plus: 1 }}"
+                data-index="{{ item.index | plus: 1 }}"
+              >
+              <button
+                type="button"
+                name="plus"
+                {% if item.variant.quantity_rule.max and item.quantity >= item.variant.quantity_rule.max %}
+                  disabled
+                {% endif %}
+                class="inline-flex items-center justify-center align-middle rounded-md border w-6 aspect-square text-xs border-gray-200 text-black w-6 disabled:text-gray-200"
+              >
+                <span class="group-data-[loading]/item:animate-spin block">+</span>
+              </button>
+            </div>
+            <button
+              type="button"
+              name="remove"
+              class="inline-flex w-fit underline text-xs"
+            >
+              Remove
+            </button>
+          </quantity-input>
+        </div>
+        <p class="ml-auto w-fit">
+          {{ item.final_line_price | money }}
+        </p>
+      </div>
+    </fieldset>
+  {% else %}
+    <p class="mb-4">Your cart is empty.</p>
+    <a href="{{ routes.shop_url }}" class="bg-black block text-white rounded-md py-2 px-4 w-fit"> Shop </a>
+  {% endfor %}
+</form>
+
+{% comment %}
+  <article
+    data-target="cart-drawer.item"
+    class="group/item border-t px-4 lg:px-12 py-8 flex gap-4"
+    data-index="{{ item.index | plus: 1 }}"
+    data-key="{{ item.key }}"
+  >
+    <picture class="bg-gray-100 shrink-0">
+      {{ item.image | image_url: width: 100 | image_tag }}
+    </picture>
+    <div class="space-y-2 w-full" data-target="cart-drawer.item-details">
+      <div class="flex w-full">
+        <p>
+          {{ item.title }}
+        </p>
+        <p class="ml-auto block">
+          {{ item.final_line_price | money }}
+        </p>
+      </div>
+      <quantity-input class="flex flex-col gap-2 h-fit">
+        <div class="flex gap-0.5">
+          <button
+            type="button"
+            name="minus"
+            {% if item.variant.quantity_rule.min and item.quantity <= item.variant.quantity_rule.min %}
+              disabled
+            {% endif %}
+            class="inline-flex items-center justify-center align-middle rounded-md border border-gray-200 text-black w-6 disabled:text-gray-200 aspect-square text-xs"
+          >
+            -
+          </button>
+          <input
+            class="inline-flex items-center text-center justify-center text-xs align-middle bg-white text-black w-6 aspect-square [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            type="number"
+            disabled
+            name="updates[]"
+            value="{{ item.quantity }}"
+            {% # theme-check-disable %}
+            data-cart-quantity="{{ cart | item_count_for_variant: item.variant.id }}"
+            min="{{ item.variant.quantity_rule.min }}"
+            {% if item.variant.quantity_rule.max != null %}
+              max="{{ item.variant.quantity_rule.max }}"
+            {% endif %}
+            step="{{ item.variant.quantity_rule.increment }}"
+            {% # theme-check-enable %}
+            id="Quantity-{{ item.index | plus: 1 }}"
+            data-index="{{ item.index | plus: 1 }}"
+          >
+          <button
+            type="button"
+            name="plus"
+            {% if item.variant.quantity_rule.max and item.quantity >= item.variant.quantity_rule.max %}
+              disabled
+            {% endif %}
+            class="inline-flex items-center justify-center align-middle rounded-md border w-6 aspect-square text-xs border-gray-200 text-black w-6 disabled:text-gray-200"
+          >
+            <span class="group-data-[loading]/item:animate-spin block">+</span>
+          </button>
+        </div>
+        <button
+          type="button"
+          name="remove"
+          class="inline-flex w-fit underline text-xs"
+        >
+          Remove
+        </button>
+      </quantity-input>
+    </div>
+  </article>
+{% endcomment %}
