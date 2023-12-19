@@ -1,12 +1,9 @@
-(document.querySelector(".js") as HTMLElement)!.setAttribute("data-active", "");
+import "@/elements/product-images";
+import "@/elements/variant-select";
+import "@/elements/product-form";
+import "@/elements/product-details";
+import "@/elements/cart-count";
+import "@/elements/cart-drawer";
+import "@/elements/clear-cart-button";
 
-import "@/lib/static";
-
-import("@/lib/dynamic").then(({ default: dynamic }) => dynamic());
-
-import("@splidejs/splide").then(() => {
-  document.querySelector(".js-dynamic-module")!.setAttribute("data-active", "");
-  console.log(
-    `✅ ${document.querySelector(".js-dynamic-module")!.textContent!.trim()}`
-  );
-});
+import "@/elements/quantity-input";

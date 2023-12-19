@@ -1,0 +1,75 @@
+<section class="space-y-4 w-[min(100%,_25rem)]">
+  <h2 class="text-xl">{{ product.title }}</h2>
+  <product-images class="block">
+    <div class="splide visible w-full">
+      <div class="splide__track">
+        <ul class="splide__list w-full">
+          <li
+            class="splide__slide w-full bg-white"
+            data-variant="{{ product.selected_or_first_available_variant.id }}"
+          >
+            {{
+              product.selected_or_first_available_variant.featured_image
+              | image_url: width: 700
+              | image_tag: class: 'aspect-square w-full h-full object-contain'
+            }}
+          </li>
+          {% for image in product.images %}
+            {% unless image == product.selected_or_first_available_variant.featured_image %}
+              <li
+                class="splide__slide w-full bg-white"
+                {% if image.attached_to_variant? %}
+                  data-variant="{{ image.variants.first.id }}"
+                {% endif %}
+              >
+                {{ image | image_url: width: 700 | image_tag: class: 'aspect-square w-full h-full object-contain' }}
+              </li>
+            {% endunless %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </product-images>
+  <product-details class="flex items-center justify-between">
+    <span class="text-sm" data-target="price">
+      {{ product.selected_or_first_available_variant.price | money }}
+    </span>
+
+    <product-form>
+      {% form 'product', product, id: 'product-form', class: 'gap-4 flex items-center' %}
+        <variant-select class="inline-flex gap-2 bg-gray-700 py-1.5 px-1.5 rounded-full items-center">
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          {%- for v in product.variants -%}
+            <fieldset class="inline">
+              <input
+                class="hidden peer"
+                type="radio"
+                id="variant-{{ forloop.index0 }}"
+                name="variant"
+                value="{{ v.id }}"
+                form="product-form"
+                onchange="this.form.querySelector('[name=id]').value = this.value"
+
+                {% if product.selected_or_first_available_variant == v %}
+                  checked
+                {% endif %}
+              >
+              <label
+                for="variant-{{ forloop.index0 }}"
+                style="background-color: {{ v.option1 }};"
+                role="button"
+                class="block aspect-square rounded-full h-[1.2em] peer-checked:outline outline-offset-1 outline-1"
+              >
+              </label>
+            </fieldset>
+          {%- endfor -%}
+        </variant-select>
+
+        <button type="submit" class="px-3 py-2 bg-white text-black rounded-md w-28 group/button">
+          <span class="group-data-[loading]/button:block animate-spin hidden">↻</span>
+          <span class="group-data-[loading]/button:hidden block">Add to cart</span>
+        </button>
+      {% endform %}
+    </product-form>
+  </product-details>
+</section>

@@ -9,7 +9,17 @@
 
     {%- capture prefix -%}{%- render 'asset-prefix' -%}{%- endcapture -%}
 
+    <script>
+      window.routes = {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_url: '{{ routes.cart_url }}',
+        cart_clear_url: '{{ routes.cart_clear_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+      };
+    </script>
+
     {%- # Scripts -%}
+    <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'main.js' | prepend: prefix | asset_url }}" type="module" defer="defer"></script>
 
     {%- # Styles -%}
@@ -25,24 +35,41 @@
       href="{{ 'favicon.ico' | asset_url }}"
     >
   </head>
-  <body class="p-8 bg-gray-900 text-sm text-white">
-    <section class="space-y-6">
-      <h1 class="font-bold">Shopify Parcel</h1>
-      <p>
-        📂 <span class="bg-gray-700 w-fit rounded px-1 py-0.5">{{ prefix }}</span>
-      </p>
-      <ul class="text-white/50 [&>li]:before:content-['⏳'] [&>li]:before:mr-1.5 [&>li[data-active]]:text-white [&>li[data-active]]:before:content-['✅']">
-        <li class="css" data-active>
-          {{- 'CSS (Tailwind), <span class="text-white/50 css-imports">imports</span> and <span class="text-white/50 css-nesting">nesting</span>' -}}
+  <body class="p-8 bg-slate-900 text-sm text-white">
+    <header class="mb-8">
+      <h1 class="mb-4"><a href="/" class="font-bold">👩‍🏫 Demo: Componentize elements</a></h1>
+      <ul class="flex gap-4 flex-wrap">
+        <li>👀 <a href="/products/t-shirt" class="">Product</a></li>
+        <li>
+          🛒
+          <a
+            href="/cart"
+            onclick="event.preventDefault(); document.querySelector('.group\\/cart-drawer').toggleAttribute('data-active', true);"
+            >Cart
+            <cart-count
+              class="hidden data-[active]:inline before:content-['('] after:content-[')']"
+              {% if cart.item_count > 0 %}
+                data-active
+              {% endif %}
+            >
+              {{- cart.item_count -}}
+            </cart-count></a
+          >
         </li>
-        <li class="js">JavaScript bundle</li>
-        <li class="js-dynamic">JavaScript dynamic import</li>
-        <li class="js-dynamic-module">
-          {{- 'JavaScript dynamic import from <span class="bg-gray-700 w-fit rounded px-1 py-0.5">node_modules</span>' }}
+        <li>
+          🎫
+          <a
+            href="https://www.notion.so/ask-phill/Componentize-elements-1388d9f24d1848818aba35840190aa8f?pvs=4"
+            class=""
+          >
+            Task</a
+          >
         </li>
       </ul>
-    </section>
+    </header>
 
     {{ content_for_layout }}
+
+    {% section 'cart-drawer' %}
   </body>
 </html>
