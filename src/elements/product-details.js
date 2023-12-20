@@ -7,8 +7,13 @@ customElements.define(
           .parseFromString(sections["main-product"], "text/html")
           .querySelector("product-details");
 
-        this.querySelector('[data-target="price"]').replaceWith(
-          html.querySelector('[data-target="price"]')
+        this.querySelectorAll("[data-target^='product-details.']").forEach(
+          (e) =>
+            e.replaceWith(
+              html.querySelector(
+                `[data-target="${e.getAttribute("data-target")}"]`
+              )
+            )
         );
       });
     }

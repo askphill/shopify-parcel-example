@@ -5,9 +5,10 @@ customElements.define(
       this.querySelector("form").addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        event.submitter.toggleAttribute("data-loading", true);
-
         const form = event.target;
+
+        form.toggleAttribute("data-loading", true);
+
         const formData = new FormData(form);
 
         formData.append("sections", ["cart-drawer"]);
@@ -35,7 +36,7 @@ customElements.define(
           .then((r) => r.json())
           .then((r) => publish("cartUpdate", r));
 
-        event.submitter.toggleAttribute("data-loading", false);
+        form.toggleAttribute("data-loading", false);
       });
     }
   }

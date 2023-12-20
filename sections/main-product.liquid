@@ -1,6 +1,9 @@
-<section class="space-y-4 w-[min(100%,_25rem)]">
-  <h2 class="text-xl">{{ product.title }}</h2>
-  <product-images class="block">
+<product-details class="space-y-4 block w-[min(100%,_25rem)]">
+  <h2 data-target="product-details.title" class="text-xl">
+    {{ product.title }}
+    ({{ product.selected_or_first_available_variant.title }})
+  </h2>
+  <product-images class="block rounded-md overflow-hidden border-black/10 border">
     <div class="splide visible w-full">
       <div class="splide__track">
         <ul class="splide__list w-full">
@@ -11,7 +14,7 @@
             {{
               product.selected_or_first_available_variant.featured_image
               | image_url: width: 700
-              | image_tag: class: 'aspect-square w-full h-full object-contain'
+              | image_tag: class: 'aspect-square size-full object-contain'
             }}
           </li>
           {% for image in product.images %}
@@ -22,7 +25,7 @@
                   data-variant="{{ image.variants.first.id }}"
                 {% endif %}
               >
-                {{ image | image_url: width: 700 | image_tag: class: 'aspect-square w-full h-full object-contain' }}
+                {{ image | image_url: width: 700 | image_tag: class: 'aspect-square size-full object-contain' }}
               </li>
             {% endunless %}
           {% endfor %}
@@ -30,46 +33,72 @@
       </div>
     </div>
   </product-images>
-  <product-details class="flex items-center justify-between">
-    <span class="text-sm" data-target="price">
+  <section class="flex items-center justify-between">
+    <span data-target="product-details.price">
       {{ product.selected_or_first_available_variant.price | money }}
     </span>
 
-    <product-form>
-      {% form 'product', product, id: 'product-form', class: 'gap-4 flex items-center' %}
-        <variant-select class="inline-flex gap-2 bg-gray-700 py-1.5 px-1.5 rounded-full items-center">
+    <div class="gap-2 flex items-center">
+      <variant-select class="inline-flex gap-2 bg-black/10 py-1.5 px-1.5 rounded-full items-center">
+        {%- for v in product.variants -%}
+          <fieldset class="inline" form="product-form">
+            <input
+              class="hidden peer"
+              type="radio"
+              id="variant-{{ forloop.index0 }}"
+              name="variant"
+              value="{{ v.id }}"
+              form="product-form"
+              onchange="this.form.querySelector('[name=id]').value = this.value"
+
+              {% if product.selected_or_first_available_variant == v %}
+                checked
+              {% endif %}
+            >
+            <label
+              for="variant-{{ forloop.index0 }}"
+              style="background-color: {{ v.option1 }};"
+              role="button"
+              class="block aspect-square rounded-full h-[1.2em] peer-checked:outline outline-offset-1 outline-1"
+            >
+            </label>
+          </fieldset>
+        {%- endfor -%}
+      </variant-select>
+
+      <product-form>
+        {% form 'product', product, id: 'product-form', class: 'group/product-form' %}
           <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-          {%- for v in product.variants -%}
-            <fieldset class="inline">
-              <input
-                class="hidden peer"
-                type="radio"
-                id="variant-{{ forloop.index0 }}"
-                name="variant"
-                value="{{ v.id }}"
-                form="product-form"
-                onchange="this.form.querySelector('[name=id]').value = this.value"
 
-                {% if product.selected_or_first_available_variant == v %}
-                  checked
-                {% endif %}
-              >
-              <label
-                for="variant-{{ forloop.index0 }}"
-                style="background-color: {{ v.option1 }};"
-                role="button"
-                class="block aspect-square rounded-full h-[1.2em] peer-checked:outline outline-offset-1 outline-1"
-              >
-              </label>
-            </fieldset>
-          {%- endfor -%}
-        </variant-select>
+          <button
+            type="submit"
+            class="px-3 py-2 bg-black text-white rounded-md flex items-center justify-center relative group/product-form text-center group-data-[loading]/product-form:pointer-events-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              data-slot="icon"
+              stroke-width="1.5"
 
-        <button type="submit" class="px-3 py-2 bg-white text-black rounded-md w-28 group/button">
-          <span class="group-data-[loading]/button:block animate-spin hidden">↻</span>
-          <span class="group-data-[loading]/button:hidden block">Add to cart</span>
-        </button>
-      {% endform %}
-    </product-form>
-  </product-details>
-</section>
+              class="size-4 hidden group-data-[loading]/product-form:inline-block animate-spin -mt-[0.25em] mr-[.5ch]"
+            >
+              <path fill-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 0 1-9.201 2.466l-.312-.311h2.433a.75.75 0 0 0 0-1.5H3.989a.75.75 0 0 0-.75.75v4.242a.75.75 0 0 0 1.5 0v-2.43l.31.31a7 7 0 0 0 11.712-3.138.75.75 0 0 0-1.449-.39Zm1.23-3.723a.75.75 0 0 0 .219-.53V2.929a.75.75 0 0 0-1.5 0V5.36l-.31-.31A7 7 0 0 0 3.239 8.188a.75.75 0 1 0 1.448.389A5.5 5.5 0 0 1 13.89 6.11l.311.31h-2.432a.75.75 0 0 0 0 1.5h4.243a.75.75 0 0 0 .53-.219Z" clip-rule="evenodd" />
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+
+              fill="currentColor"
+              data-slot="icon"
+              class="size-4 inline-block -mt-[0.25em] mr-[.5ch] group-data-[loading]/product-form:hidden"
+            >
+              <path d="M1 1.75A.75.75 0 0 1 1.75 1h1.628a1.75 1.75 0 0 1 1.734 1.51L5.18 3a65.25 65.25 0 0 1 13.36 1.412.75.75 0 0 1 .58.875 48.645 48.645 0 0 1-1.618 6.2.75.75 0 0 1-.712.513H6a2.503 2.503 0 0 0-2.292 1.5H17.25a.75.75 0 0 1 0 1.5H2.76a.75.75 0 0 1-.748-.807 4.002 4.002 0 0 1 2.716-3.486L3.626 2.716a.25.25 0 0 0-.248-.216H1.75A.75.75 0 0 1 1 1.75ZM6 17.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM15.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
+            </svg>
+            Add to cart
+          </button>
+        {% endform %}
+      </product-form>
+    </div>
+  </section>
+</product-details>

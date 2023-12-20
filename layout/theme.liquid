@@ -35,40 +35,52 @@
       href="{{ 'favicon.ico' | asset_url }}"
     >
   </head>
-  <body class="p-8 bg-slate-900 text-sm text-white">
-    <header class="mb-8">
-      <h1 class="mb-4"><a href="/" class="font-bold">👩‍🏫 Demo: Componentize elements</a></h1>
-      <ul class="flex gap-4 flex-wrap">
-        <li>👀 <a href="/products/t-shirt" class="">Product</a></li>
-        <li>
-          🛒
-          <a
-            href="/cart"
-            onclick="event.preventDefault(); document.querySelector('.group\\/cart-drawer').toggleAttribute('data-active', true);"
-            >Cart
-            <cart-count
-              class="hidden data-[active]:inline before:content-['('] after:content-[')']"
-              {% if cart.item_count > 0 %}
-                data-active
-              {% endif %}
-            >
-              {{- cart.item_count -}}
-            </cart-count></a
+  <body class="text-sm">
+    <header class="space-y-4 p-6 lg:p-8 bg-blue-200">
+      <h1 class="font-bold">Demo: Components</h1>
+      <p>Simple ecommerce flow to demo JavaScript component strategies.</p>
+      <div class="flex gap-2 ">
+        <a href="/products/t-shirt" class="px-3 py-2 bg-black text-white rounded-md">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            data-slot="icon"
+            class="size-4 inline-block -mt-[0.25em] mr-[.5ch]"
           >
-        </li>
-        <li>
-          🎫
-          <a
-            href="https://www.notion.so/ask-phill/Componentize-elements-1388d9f24d1848818aba35840190aa8f?pvs=4"
-            class=""
+            <path d="M2.879 7.121A3 3 0 0 0 7.5 6.66a2.997 2.997 0 0 0 2.5 1.34 2.997 2.997 0 0 0 2.5-1.34 3 3 0 1 0 4.622-3.78l-.293-.293A2 2 0 0 0 15.415 2H4.585a2 2 0 0 0-1.414.586l-.292.292a3 3 0 0 0 0 4.243ZM3 9.032a4.507 4.507 0 0 0 4.5-.29A4.48 4.48 0 0 0 10 9.5a4.48 4.48 0 0 0 2.5-.758 4.507 4.507 0 0 0 4.5.29V16.5h.25a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75v-3.5a.75.75 0 0 0-.75-.75h-2.5a.75.75 0 0 0-.75.75v3.5a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1 0-1.5H3V9.032Z" />
+          </svg>
+          Product</a
+        >
+        <a
+          href="/cart"
+          class="px-3 py-2 bg-black text-white rounded-md"
+          onclick="event.preventDefault(); document.querySelector('cart-drawer').toggleAttribute('data-active', true);"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            data-slot="icon"
+            class="size-4 inline-block -mt-[0.25em] mr-[.5ch]"
           >
-            Task</a
+            <path fill-rule="evenodd" d="M6 5v1H4.667a1.75 1.75 0 0 0-1.743 1.598l-.826 9.5A1.75 1.75 0 0 0 3.84 19H16.16a1.75 1.75 0 0 0 1.743-1.902l-.826-9.5A1.75 1.75 0 0 0 15.333 6H14V5a4 4 0 0 0-8 0Zm4-2.5A2.5 2.5 0 0 0 7.5 5v1h5V5A2.5 2.5 0 0 0 10 2.5ZM7.5 10a2.5 2.5 0 0 0 5 0V8.75a.75.75 0 0 1 1.5 0V10a4 4 0 0 1-8 0V8.75a.75.75 0 0 1 1.5 0V10Z" clip-rule="evenodd" />
+          </svg>
+
+          Cart
+          <cart-count
+            class="hidden data-[active]:inline before:content-['('] after:content-[')']"
+            {% if cart.item_count > 0 %}
+              data-active
+            {% endif %}
           >
-        </li>
-      </ul>
+            {{- cart.item_count -}}
+          </cart-count></a
+        >
+      </div>
     </header>
 
-    {{ content_for_layout }}
+    <main class="p-6 lg:p-8">{{ content_for_layout }}</main>
 
     {% section 'cart-drawer' %}
   </body>

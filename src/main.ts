@@ -1,9 +1,11 @@
-import "@/elements/product-images";
+// product
 import "@/elements/variant-select";
-import "@/elements/product-form";
+import "@/elements/product-images";
 import "@/elements/product-details";
-import "@/elements/cart-count";
-import "@/elements/cart-drawer";
-import "@/elements/clear-cart-button";
+import "@/elements/product-form";
 
+// cart
+import "@/elements/cart-drawer";
+import "@/elements/cart-form";
+import "@/elements/cart-count";
 import "@/elements/quantity-input";

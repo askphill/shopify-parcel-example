@@ -2,8 +2,12 @@ customElements.define(
   "product-images",
   class ProductImages extends HTMLElement {
     async connectedCallback() {
-      const Splide = (await import("@splidejs/splide")).default;
-      new Splide(this.querySelector(".splide"), { arrows: false }).mount();
+      new (await import("@splidejs/splide")).default(
+        this.querySelector(".splide"),
+        {
+          arrows: false,
+        }
+      ).mount();
 
       this.unsubscribe = subscribe("variantUpdate", (sections) => {
         const html = new DOMParser()
