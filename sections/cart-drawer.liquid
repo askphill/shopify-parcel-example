@@ -1,20 +1,20 @@
-<cart-drawer class="group/cart-drawer fixed inset-0 pointer-events-none data-[active]:pointer-events-auto">
+<cart-drawer class="group/cart-drawer pointer-events-none fixed inset-0 data-[active]:pointer-events-auto">
   <button
     type="button"
-    class="bg-black/20 absolute inset-0 opacity-0 transition-opacity group-data-[active]/cart-drawer:opacity-100"
+    class="absolute inset-0 bg-black/20 opacity-0 transition-opacity group-data-[active]/cart-drawer:opacity-100"
     onclick="this.closest('cart-drawer').toggleAttribute('data-active', false)"
   ></button>
-  <cart-form class="block w-full lg:w-[min(90%,_40rem)] bg-white ml-auto absolute right-0 h-full translate-x-full duration-500 ease-in-out transition-transform group-data-[active]/cart-drawer:translate-x-0">
+  <cart-form class="absolute right-0 ml-auto block h-full w-full translate-x-full bg-white transition-transform duration-500 ease-in-out group-data-[active]/cart-drawer:translate-x-0 lg:w-[min(90%,_40rem)]">
     <form
       action="{{ routes.cart_url }}"
       method="post"
-      class="group/cart-form flex flex-col h-full *:data-[loading]:pointer-events-none data-[loading]:cursor-wait"
+      class="group/cart-form flex h-full flex-col data-[loading]:cursor-wait *:data-[loading]:pointer-events-none"
     >
-      <header class="p-4 flex items-center">
-        <p class="text-xl leading-none flex items-center gap-2">
+      <header class="flex items-center p-4">
+        <p class="flex items-center gap-2 text-xl leading-none">
           Cart
           <cart-count
-            class="!hidden data-[active]:inline-flex leading-none items-center justify-center rounded-full bg-black/10 w-6 aspect-square text-xs"
+            class="!hidden aspect-square w-6 items-center justify-center rounded-full bg-black/10 text-xs leading-none data-[active]:inline-flex"
             {% if cart.item_count > 0 %}
               data-active
             {% endif %}
@@ -22,11 +22,11 @@
             {{- cart.item_count -}}
           </cart-count>
         </p>
-        <div class="flex gap-2 ml-auto">
+        <div class="ml-auto flex gap-2">
           <button
             type="button"
             onclick="this.closest('cart-drawer').toggleAttribute('data-active', false)"
-            class="border-black/10 border ml-auto p-2 rounded-md grid place-items-center"
+            class="ml-auto grid place-items-center rounded-md border border-black/10 p-2"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -40,25 +40,25 @@
           </button>
         </div>
       </header>
-      <div class="grow flex flex-col">
+      <div class="flex grow flex-col">
         <section
           data-target="cart-form.items"
           class="grow overflow-auto [&_[data-target='cart-form.empty']]:[&:has([data-target='cart-form.item'])]:hidden"
         >
           {% for item in cart.items %}
             <fieldset
-              class="grid grid-cols-[max(20%,_5.5rem)_minmax(0,_1fr)] gap-4 p-4 border-t transition-color duration-500 ease-out data-[loading]:bg-gray-200/25"
+              class="transition-color grid grid-cols-[max(20%,_5.5rem)_minmax(0,_1fr)] gap-4 border-t p-4 duration-500 ease-out data-[loading]:bg-gray-200/25"
               data-target="cart-form.item"
               data-key="{{ item.key }}"
               data-index="{{ forloop.index }}"
             >
-              <a href="{{ item.variant.url }}" class="aspect-square rounded-md border overflow-hidden bg-white">
+              <a href="{{ item.variant.url }}" class="aspect-square overflow-hidden rounded-md border bg-white">
                 {{ item.image | image_url: width: 150 | image_tag: class: 'object-contain size-full' }}
               </a>
               <div class="flex" data-target="cart-form.item.details">
-                <div class="flex flex-col pb-1 gap-2">
+                <div class="flex flex-col gap-2 pb-1">
                   <a href="{{ item.variant.url }}">{{ item.title }}</a>
-                  <quantity-input class="flex flex-col gap-2 text-xs h-fit">
+                  <quantity-input class="flex h-fit flex-col gap-2 text-xs">
                     <div class="flex gap-2">
                       <button
                         type="button"
@@ -66,7 +66,7 @@
                         {% if item.variant.quantity_rule.min and item.quantity <= item.variant.quantity_rule.min %}
                           disabled
                         {% endif %}
-                        class="inline-flex items-center justify-center align-middle rounded-md border border-black/10 p-2 disabled:text-black/10 aspect-square"
+                        class="inline-flex aspect-square items-center justify-center rounded-md border border-black/10 p-2 align-middle disabled:text-black/10"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +92,7 @@
                         id="Quantity-{{ item.index | plus: 1 }}"
                         data-index="{{ item.index | plus: 1 }}"
                       >
-                      <span class="inline-flex items-center text-center justify-center align-middle bg-transparent w-6 aspect-square [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+                      <span class="inline-flex aspect-square w-6 items-center justify-center bg-transparent text-center align-middle [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none">
                         {{ item.quantity }}
                       </span>
                       <button
@@ -101,7 +101,7 @@
                         {% if item.variant.quantity_rule.max and item.quantity >= item.variant.quantity_rule.max %}
                           disabled
                         {% endif %}
-                        class="inline-flex items-center justify-center align-middle rounded-md border p-2 aspect-square border-black/10 disabled:text-black/10"
+                        class="inline-flex aspect-square items-center justify-center rounded-md border border-black/10 p-2 align-middle disabled:text-black/10"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -117,7 +117,7 @@
                     <button
                       type="button"
                       name="remove"
-                      class="w-fit underline text-xs"
+                      class="w-fit text-xs underline"
                     >
                       Remove
                     </button>
@@ -129,15 +129,15 @@
               </div>
             </fieldset>
           {% endfor %}
-          <div class="p-4 space-y-4" data-target="cart-form.empty">
+          <div class="space-y-4 p-4" data-target="cart-form.empty">
             <p class="mb-4">Your cart is empty.</p>
-            <a href="/products/t-shirt" class="bg-black block text-white rounded-md py-2 px-4 w-fit">
+            <a href="/products/t-shirt" class="block w-fit rounded-md bg-black px-4 py-2 text-white">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
                 data-slot="icon"
-                class="size-4 inline-block -mt-[0.25em] mr-[.5ch]"
+                class="-mt-[0.25em] mr-[.5ch] inline-block size-4"
               >
                 <path d="M2.879 7.121A3 3 0 0 0 7.5 6.66a2.997 2.997 0 0 0 2.5 1.34 2.997 2.997 0 0 0 2.5-1.34 3 3 0 1 0 4.622-3.78l-.293-.293A2 2 0 0 0 15.415 2H4.585a2 2 0 0 0-1.414.586l-.292.292a3 3 0 0 0 0 4.243ZM3 9.032a4.507 4.507 0 0 0 4.5-.29A4.48 4.48 0 0 0 10 9.5a4.48 4.48 0 0 0 2.5-.758 4.507 4.507 0 0 0 4.5.29V16.5h.25a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75v-3.5a.75.75 0 0 0-.75-.75h-2.5a.75.75 0 0 0-.75.75v3.5a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1 0-1.5H3V9.032Z" />
               </svg>
@@ -146,18 +146,18 @@
             </a>
           </div>
         </section>
-        <footer class="p-4 border-t empty:border-none flex gap-4 flex-col" data-target="cart-form.footer">
+        <footer class="flex flex-col gap-4 border-t p-4 empty:border-none" data-target="cart-form.footer">
           {%- if cart.item_count > 0 %}
-            <p class="w-full flex">
+            <p class="flex w-full">
               <span>Total</span> <span class="ml-auto">{{ cart.total_price | money }}</span>
             </p>
-            <button type="submit" name="checkout" class="bg-black text-white rounded-md py-2 px-4 ml-auto w-fit">
+            <button type="submit" name="checkout" class="ml-auto w-fit rounded-md bg-black px-4 py-2 text-white">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
                 data-slot="icon"
-                class="size-4 inline-block -mt-[0.25em] mr-[.5ch]"
+                class="-mt-[0.25em] mr-[.5ch] inline-block size-4"
               >
                 <path d="M1 1.75A.75.75 0 0 1 1.75 1h1.628a1.75 1.75 0 0 1 1.734 1.51L5.18 3a65.25 65.25 0 0 1 13.36 1.412.75.75 0 0 1 .58.875 48.645 48.645 0 0 1-1.618 6.2.75.75 0 0 1-.712.513H6a2.503 2.503 0 0 0-2.292 1.5H17.25a.75.75 0 0 1 0 1.5H2.76a.75.75 0 0 1-.748-.807 4.002 4.002 0 0 1 2.716-3.486L3.626 2.716a.25.25 0 0 0-.248-.216H1.75A.75.75 0 0 1 1 1.75ZM6 17.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM15.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
               </svg>

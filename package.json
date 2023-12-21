@@ -15,6 +15,9 @@
   },
   "devDependencies": {
     "@askphill/shopify-parcel": "^1.0.0",
+    "@shopify/prettier-plugin-liquid": "^1.4.0",
+    "prettier": "3.0",
+    "prettier-plugin-tailwindcss": "^0.5.9",
     "tailwindcss": "^3.4.0"
   },
   "dependencies": {

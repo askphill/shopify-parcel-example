@@ -1,0 +1,21 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    // for `@apply bg-black` in tailwind config
+    "tailwindCSS.experimental.classRegex": ["'@apply([^']*)':"]
+  },
+  "[liquid]": {
+    // `class: 'bg-black'` variables in liquid
+    "tailwindCSS.experimental.classRegex": [
+      ".+?(?:classe?s?|\"class\")\\s*(?:=|:)\\s*(?:'|\"){1}([^'\"]+?)(?:'|\"){1}"
+    ],
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "emmet.includeLanguages": {
+    "liquid": "html",
+    "postcss": "css"
+  },
+  "typescript.preferences.importModuleSpecifierEnding": "minimal",
+  "typescript.preferences.importModuleSpecifier": "non-relative"
+}

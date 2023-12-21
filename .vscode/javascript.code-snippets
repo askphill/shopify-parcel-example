@@ -1,0 +1,17 @@
+{
+  "Element": {
+    "description": "Custom Element",
+    "scope": "typescript,javascript",
+    "prefix": "@element",
+    "body": [
+      "customElements.define(",
+      "  '${TM_FILENAME_BASE}',",
+      "  class ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/g} extends HTMLElement {",
+      "    connectedCallback() {",
+      "      $0",
+      "    }",
+      "  },",
+      ");"
+    ]
+  }
+}

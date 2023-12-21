@@ -1,11 +1,11 @@
 customElements.define(
-  "cart-count",
+  'cart-count',
   class CartCount extends HTMLElement {
     async connectedCallback() {
-      this.unsubscribe = subscribe("cartUpdate", ({ item_count: count }) => {
+      this.unsubscribe = subscribe('cartUpdate', ({ item_count: count }) => {
         if (count !== undefined) {
           this.innerText = count;
-          this.toggleAttribute("data-active", count > 0);
+          this.toggleAttribute('data-active', count > 0);
         }
       });
     }
@@ -13,5 +13,5 @@ customElements.define(
     disconnectedCallback() {
       this.unsubscribe();
     }
-  }
+  },
 );

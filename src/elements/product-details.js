@@ -1,19 +1,14 @@
 customElements.define(
-  "product-details",
+  'product-details',
   class ProductDetails extends HTMLElement {
     async connectedCallback() {
-      this.unsubscribe = subscribe("variantUpdate", (sections) => {
+      this.unsubscribe = subscribe('variantUpdate', (sections) => {
         const html = new DOMParser()
-          .parseFromString(sections["main-product"], "text/html")
-          .querySelector("product-details");
+          .parseFromString(sections['main-product'], 'text/html')
+          .querySelector('product-details');
 
-        this.querySelectorAll("[data-target^='product-details.']").forEach(
-          (e) =>
-            e.replaceWith(
-              html.querySelector(
-                `[data-target="${e.getAttribute("data-target")}"]`
-              )
-            )
+        this.querySelectorAll("[data-target^='product-details.']").forEach((e) =>
+          e.replaceWith(html.querySelector(`[data-target="${e.getAttribute('data-target')}"]`)),
         );
       });
     }
@@ -21,5 +16,5 @@ customElements.define(
     disconnectedCallback() {
       this.unsubscribe();
     }
-  }
+  },
 );
