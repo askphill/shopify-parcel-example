@@ -17,7 +17,7 @@ on:
 
 jobs:
   build:
-    if: "!(github.actor contains 'shopify[bot]' || github.actor contains 'esbuild[bot]')"
+    if: "!contains('[bot]', github.actor)"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
