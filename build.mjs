@@ -38,7 +38,7 @@ const jsOptions = {
 const cssOptions = {
   ...commonOptions,
   entryPoints: entries.filter((e) => e.match(/.*\.css$/)),
-  external: ['*.woff', '*.woff2', '.ttf', '.otf', '*.png', '*.jpg', '*.jpeg', '*.svg'],
+  external: ['*.woff', '*.woff2', '*.ttf', '*.otf', '*.png', '*.jpg', '*.jpeg', '*.svg'],
   plugins: [postcss()],
 };
 
