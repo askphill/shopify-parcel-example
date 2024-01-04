@@ -1,0 +1,299 @@
+{
+  // 🧪 OPININATED SHOPIFY SNIPPETS
+
+  // Regex Expressions
+  // 	any → pascalCase: /(.*)/${1:/pascalcase}/g
+  // 	kebab-case → Title Case: /([^-]*)(-?)/${1:/capitalize}${2:+ }/g
+  // 	Sentence case → snake_case: /([^\\s])|(\\s)/${1:/downcase}${2:+_}/g
+
+  // Templates
+  "Shopify Section": {
+    "description": "Shopify Section template",
+    "scope": "liquid",
+    "prefix": "@section",
+    "body": [
+      "${2:${TM_FILENAME_BASE/([^-]*)(-?)/${1:/capitalize}${2:+ }/g}}",
+      "",
+      "{% schema %}",
+      "{",
+      "  \"name\": \"${TM_FILENAME_BASE/([^-]*)(-?)/${1:/capitalize}${2:+ }/g}\",",
+      "  \"settings\": [",
+      "    $1",
+      "  ],",
+      "  \"enabled_on\": {",
+      "    \"templates\": [\"*\"]",
+      "  },",
+      "  \"presets\": [",
+      "    {",
+      "      \"name\": \"${TM_FILENAME_BASE/([^-]*)(-?)/${1:/capitalize}${2:+ }/g}\"",
+      "    },",
+      "  ]",
+      "}",
+      "{% endschema %}"
+    ]
+  },
+  "Shopify Snippet": {
+    "description": "Shopify Snippet template",
+    "scope": "liquid",
+    "prefix": "@snippet",
+    "body": ["{%- assign ${1:parameter} = $1${2:| default: ${3:value}} -%}", "", "$0"]
+  },
+
+  // Combinations of input settings
+  "Shopify Input settings: Image": {
+    "description": "Mobile and desktop image",
+    "scope": "liquid",
+    "prefix": ">image!",
+    "body": [
+      "  {",
+      "    \"type\": \"header\",",
+      "    \"content\": \"${1:Image}\"",
+      "  },",
+      "  {",
+      "    \"type\": \"image_picker\",",
+      "    \"label\": \"Image mobile (default)\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "  {",
+      "    \"type\": \"image_picker\",",
+      "    \"label\": \"Image desktop\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}_desktop\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input settings: Media": {
+    "description": "Mobile and desktop media",
+    "scope": "liquid",
+    "prefix": ">media!",
+    "body": [
+      "  {",
+      "    \"type\": \"header\",",
+      "    \"content\": \"$1media\"",
+      "  },",
+      "  {",
+      "    \"type\": \"image_picker\",",
+      "    \"label\": \"Image mobile (default)\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}image\"",
+      "  },",
+      "  {",
+      "    \"type\": \"image_picker\",",
+      "    \"label\": \"Image desktop\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}image_desktop\"",
+      "  },",
+      "  {",
+      "    \"type\": \"video\",",
+      "    \"label\": \"Video mobile (default)\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}video\"",
+      "  },",
+      "  {",
+      "    \"type\": \"video\",",
+      "    \"label\": \"Video desktop\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}video_desktop\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input settings: Heading tag": {
+    "description": "Heading element select for SEO",
+    "scope": "liquid",
+    "prefix": ">heading!",
+    // {
+    //   "type": "select",
+    //   "label": "Title heading element",
+    //   "id": "title_heading_element",
+    //   "default": "h2",
+    //   "options": [
+    //     { "label": "h1", "value": "h1" },
+    //     { "label": "h2", "value": "h2" },
+    //     { "label": "h3", "value": "h3" },
+    //     { "label": "h4", "value": "h4" }
+    //   ]
+    // },
+    "body": [
+      "{",
+      "  \"type\": \"select\",",
+      "  \"label\": \"${1:Title} heading element\",",
+      "  \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}_heading_element\",",
+      "  \"default\": \"${3:h2}\",",
+      "  \"options\": [",
+      "    { \"label\": \"h1\", \"value\": \"h1\" },",
+      "    { \"label\": \"h2\", \"value\": \"h2\" },",
+      "    { \"label\": \"h3\", \"value\": \"h3\" },",
+      "    { \"label\": \"h4\", \"value\": \"h4\" },",
+      "    { \"label\": \"p\", \"value\": \"p\" }",
+      "  ]",
+      "},",
+      "$0"
+    ]
+  },
+
+  // Liquid
+  "Shopify log": {
+    "scope": "liquid",
+    "prefix": "log",
+    "body": ["<script>", "  console.log('👀 ${1:${CLIPBOARD:variable}} %o', {{ $1 | json }})", "</script>"]
+  },
+  "Shopify comment": {
+    "scope": "liquid",
+    "prefix": "c",
+    "body": ["{%- # ${1:Comment} -%}"]
+  },
+  "Shopify comment block": {
+    "scope": "liquid",
+    "prefix": "c+",
+    "body": ["{%- comment -%}", "  $0", "{%- endcomment -%}"]
+  },
+  "Shopify comment inline": {
+    "scope": "liquid",
+    "prefix": "c-",
+    "body": ["{%- # ${1:Comment} -%}"]
+  },
+  "Shopify liquid variable": {
+    "scope": "liquid",
+    "description": "Liquid variable",
+    "prefix": "{{",
+    "body": ["{{ $0 }}"]
+  },
+  "Shopify liquid line": {
+    "scope": "liquid",
+    "description": "Liquid line",
+    "prefix": "l",
+    "body": ["{% $0 %}"]
+  },
+  "Shopify liquid inline": {
+    "scope": "liquid",
+    "description": "Liquid inline",
+    "prefix": "l-",
+    "body": ["{%${1:-} $0 ${2:-}%}"]
+  },
+  "Shopify liquid block": {
+    "scope": "liquid",
+    "description": "Liquid block",
+    "prefix": "l+",
+    "body": [
+      "{%- liquid",
+      // regex match {%- -%} {% %} and remove from selected text
+      "  ${TM_SELECTED_TEXT/({%-|-%}|{%|%})//g}$0",
+      " -%}"
+    ]
+  },
+  // Liquid tags
+  "Shopify liquid: assign": {
+    "scope": "liquid",
+    "description": "Assign",
+    "prefix": "assign",
+    "body": ["{% assign ${1:variable} = ${2:value} %}"]
+  },
+  "Shopify liquid: for": {
+    "scope": "liquid",
+    "description": "For",
+    "prefix": "for",
+    "body": ["{% for ${1:item} in ${2:(0..5)} %}", "  $0", "{% endfor %}"]
+  },
+  "Shopify liquid: paginate": {
+    "scope": "liquid",
+    "description": "Paginate",
+    "prefix": "paginate",
+    "body": ["{% paginate ${1:collection} by ${2:5} %}", "  $0", "{% endpaginate %}"]
+  },
+  "Shopify liquid: if": {
+    "scope": "liquid",
+    "description": "If",
+    "prefix": "if",
+    "body": ["{% if ${1:condition} %}", "  $0", "{% endif %}"]
+  },
+  "Shopify liquid inline: if": {
+    "scope": "liquid",
+    "description": "If inline",
+    "prefix": "if-",
+    "body": ["{%${2:-} if ${1:condition} ${3:-}%}$0{%${4:-} endif ${5:-}%}"]
+  },
+  "Shopify liquid: else": {
+    "scope": "liquid",
+    "prefix": "else",
+    "body": ["{% else %}", "  $0"]
+  },
+  "Shopify liquid: elsif": {
+    "scope": "liquid",
+    "prefix": "elsif",
+    "body": ["{% elsif ${1:condition} %}", "  $0"]
+  },
+  "Shopify liquid: unless": {
+    "scope": "liquid",
+    "prefix": "unless",
+    "body": ["{% unless ${1:condition} %}", "  $0", "{% endunless %}"]
+  },
+  "Shopify liquid: case": {
+    "scope": "liquid",
+    "prefix": "case",
+    "body": ["{% case ${1:condition} %}", "  {% when ${2:value} %}", "    $0", "{% endcase %}"]
+  },
+  "Shopify liquid: continue": {
+    "scope": "liquid",
+    "prefix": "continue",
+    "body": ["{% continue %}"]
+  },
+  "Shopify liquid: break": {
+    "scope": "liquid",
+    "prefix": "break",
+    "body": ["{% break %}"]
+  },
+  "Shopify liquid: capture": {
+    "scope": "liquid",
+    "prefix": "capture",
+    "body": ["{% capture ${1:variable} %}", "  $0", "{% endcapture %}"]
+  },
+  "Shopify liquid: output": {
+    "scope": "liquid",
+    "prefix": "o",
+    "body": ["{{ ${1:${CLIPBOARD:variable}} }}"]
+  },
+  "Shopify liquid: output filter": {
+    "scope": "liquid",
+    "prefix": "o|",
+    "body": ["{{ ${1:variable} | $0 }}"]
+  },
+  "Shopify liquid: output inline": {
+    "scope": "liquid",
+    "prefix": "o-",
+    "body": ["{{${1:-} ${3:variable} ${2:-}}}$0"]
+  },
+  // Render snippets
+  "Shopify liquid: render": {
+    "scope": "liquid",
+    "prefix": "render",
+    "body": ["{% render '${1:snippet}'${2:, ${3:variable}: ${4:value}} %}"]
+  },
+  "Shopify liquid: render with": {
+    "scope": "liquid",
+    "prefix": "renderwith",
+    "body": ["{% render '${1:snippet}' with ${2:variable}${3: as ${4:item}} %}"]
+  },
+  "Shopify liquid: render for": {
+    "scope": "liquid",
+    "prefix": "renderfor",
+    "body": ["{% render '${1:snippet}' for ${2:collection}${3: as ${4:item}} %}"]
+  },
+  // Render sections
+  "Shopify liquid: section": {
+    "scope": "liquid",
+    "prefix": "section",
+    "body": ["{% section '${1:section}' %}"]
+  },
+  "Shopify liquid: section group": {
+    "scope": "liquid",
+    "prefix": "sections",
+    "body": ["{% sections '${1:section}'%}"]
+  },
+  // Render forms
+  "Shopify liquid: form": {
+    "scope": "liquid",
+    "prefix": "form",
+    "body": [
+      "{% form '${1|activate_customer_password,cart,contact,create_customer,currency,customer,customer_address,customer_login,guest_login,localization,new_comment,product,recover_customer_password,reset_customer_password,storefront_password|}'${2:, ${1: content}} %}",
+      "  $0",
+      "{% endform %}"
+    ]
+  }
+}

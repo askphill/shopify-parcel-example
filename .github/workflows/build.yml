@@ -5,31 +5,32 @@ on:
     branches:
       - main
     paths:
-      - "package-lock.json"
-      - "src/**"
-      - "**.liquid"
+      - 'package-lock.json'
+      - 'src/**'
+      - '**.liquid'
   pull_request:
     types: [opened, synchronize]
     paths:
-      - "package-lock.json"
-      - "src/**"
-      - "**.liquid"
+      - 'package-lock.json'
+      - 'src/**'
+      - '**.liquid'
 
 jobs:
   build:
+    if: "!contains('[bot]', github.actor)"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "18.x"
+          node-version: '18.x'
       - name: Install
         run: npm ci
       - name: Build
         run: npm run build
-      - name: Commit and Push changes
+      - name: Commit and push changes
         uses: EndBug/add-and-commit@v7.2.1
         with:
-          author_name: "📦 Shopify Parcel"
-          message: "Build"
+          author_name: 'esbuild[bot]'
+          message: 'chore: build'

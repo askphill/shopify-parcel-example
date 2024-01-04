@@ -1,0 +1,376 @@
+{
+  // 🧪 SHOPIFY INPUT SETTINGS SNIPPETS
+
+  // Used for section and block settings, direct implentation of https://shopify.dev/docs/themes/architecture/settings/input-settings
+
+  // Regex Expressions
+  // 	any → pascalCase: /(.*)/${1:/pascalcase}/g
+  // 	kebab-case → Title Case: /([^-]*)(-?)/${1:/capitalize}${2:+ }/g
+  // 	Sentence case → snake_case: /([^\\s])|(\\s)/${1:/downcase}${2:+_}/g
+
+  // Shopify Input settings basic https://shopify.dev/docs/themes/architecture/settings/input-settings#basic-input-settings
+  "Shopify Input setting: checkbox": {
+    "description": "Checkbox setting",
+    "scope": "liquid",
+    "prefix": ">checkbox",
+    "body": [
+      "  {",
+      "    \"type\": \"checkbox\",",
+      "    \"label\": \"${1:Enable}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: number": {
+    "description": "Number setting",
+    "scope": "liquid",
+    "prefix": ">number",
+    "body": [
+      "  {",
+      "    \"type\": \"number\",",
+      "    \"label\": \"${1:Number}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: radio": {
+    "description": "Radio setting",
+    "scope": "liquid",
+    "prefix": ">radio",
+    "body": [
+      "  {",
+      "    \"type\": \"radio\",",
+      "    \"label\": \"${1:Radio}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\",",
+      "    \"options\": [",
+      "      {",
+      "        \"label\": \"${2:Option}\",",
+      "        \"value\": \"${2/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "      }",
+      "    ]",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: range": {
+    "description": "Range setting",
+    "scope": "liquid",
+    "prefix": ">range",
+    "body": [
+      "  {",
+      "    \"type\": \"range\",",
+      "    \"label\": \"${1:Range}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\",",
+      "    \"min\": ${2:0},",
+      "    \"max\": ${3:100},",
+      "    \"step\": ${4:1},",
+      "    \"unit\": \"${5:_}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: select": {
+    "description": "Select setting",
+    "scope": "liquid",
+    "prefix": ">select",
+    "body": [
+      "  {",
+      "    \"type\": \"select\",",
+      "    \"label\": \"${1:Select}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\",",
+      "    \"options\": [",
+      "      {",
+      "        \"label\": \"${2:Option}\",",
+      "        \"value\": \"${2/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "      }",
+      "    ]",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: text": {
+    "description": "Text setting",
+    "scope": "liquid",
+    "prefix": ">text",
+    "body": [
+      "  {",
+      "    \"type\": \"text\",",
+      "    \"label\": \"${1:Text}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: textarea": {
+    "description": "Textarea setting",
+    "scope": "liquid",
+    "prefix": ">textarea",
+    "body": [
+      "  {",
+      "    \"type\": \"textarea\",",
+      "    \"label\": \"${1:Text}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+
+  // Shopify Input settings specialized https://shopify.dev/docs/themes/architecture/settings/input-settings#specialized-input-settings
+  "Shopify Input setting: article": {
+    "description": "Article setting",
+    "scope": "liquid",
+    "prefix": ">article",
+    "body": [
+      "  {",
+      "    \"type\": \"article\",",
+      "    \"label\": \"${1:Article}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: blog": {
+    "description": "Blog setting",
+    "scope": "liquid",
+    "prefix": ">blog",
+    "body": [
+      "  {",
+      "    \"type\": \"blog\",",
+      "    \"label\": \"${1:Blog}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: collection": {
+    "description": "Collection setting",
+    "scope": "liquid",
+    "prefix": ">collection",
+    "body": [
+      "  {",
+      "    \"type\": \"collection\",",
+      "    \"label\": \"${1:Collection}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: collection_list": {
+    "description": "Collection list setting",
+    "scope": "liquid",
+    "prefix": ">collection_list",
+    "body": [
+      "  {",
+      "    \"type\": \"collection_list\",",
+      "    \"label\": \"${1:Collections}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: color": {
+    "description": "Color setting",
+    "scope": "liquid",
+    "prefix": ">color",
+    "body": [
+      "  {",
+      "    \"type\": \"color\",",
+      "    \"label\": \"${1:Color}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\",",
+      "    \"default\": \"${2:#000000}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: color_background": {
+    "description": "Background color setting",
+    "scope": "liquid",
+    "prefix": ">color_background",
+    "body": [
+      "  {",
+      "    \"type\": \"color\",",
+      "    \"label\": \"${1:Background color}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\",",
+      "    \"default\": \"${2:linear-gradient(#ffffff, #000000)}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  // Excluded color_scheme
+  // Excluded color_scheme_groupAnchor
+  // Excluded skipped font_picker
+  "Shopify Input setting: html": {
+    "description": "HTML setting",
+    "scope": "liquid",
+    "prefix": ">html",
+    "body": [
+      "  {",
+      "    \"type\": \"html\",",
+      "    \"label\": \"${1:Html}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: image_picker": {
+    "description": "Image setting",
+    "scope": "liquid",
+    "prefix": ">image_picker",
+    "body": [
+      "  {",
+      "    \"type\": \"image_picker\",",
+      "    \"label\": \"${1:Image}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: inline_richtext": {
+    "description": "Inline rich text setting",
+    "scope": "liquid",
+    "prefix": ">inline_richtext",
+    "body": [
+      "  {",
+      "    \"type\": \"inline_richtext\",",
+      "    \"label\": \"${1:Text}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+
+  "Shopify Input settings: link_list": {
+    "description": "Link list setting",
+    "scope": "liquid",
+    "prefix": ">link_list",
+    "body": [
+      "  {",
+      "    \"type\": \"link_list\",",
+      "    \"label\": \"${1:Menu}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input settings: liquid": {
+    "description": "Liquid setting",
+    "scope": "liquid",
+    "prefix": ">liquid",
+    "body": [
+      "  {",
+      "    \"type\": \"liquid\",",
+      "    \"label\": \"${1:Liquid}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: page": {
+    "description": "Page setting",
+    "scope": "liquid",
+    "prefix": ">page",
+    "body": [
+      "  {",
+      "    \"type\": \"page\",",
+      "    \"label\": \"${1:Page}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: product": {
+    "description": "Product setting",
+    "scope": "liquid",
+    "prefix": ">product",
+    "body": [
+      "  {",
+      "    \"type\": \"product\",",
+      "    \"label\": \"${1:Product}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: product_list": {
+    "description": "Product list setting",
+    "scope": "liquid",
+    "prefix": ">product_list",
+    "body": [
+      "  {",
+      "    \"type\": \"product_list\",",
+      "    \"label\": \"${1:Products}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: richtext": {
+    "description": "Rich text setting",
+    "scope": "liquid",
+    "prefix": ">richtext",
+    "body": [
+      "  {",
+      "    \"type\": \"richtext\",",
+      "    \"label\": \"${1:Text}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: url": {
+    "description": "URL setting",
+    "scope": "liquid",
+    "prefix": ">url",
+    "body": [
+      "  {",
+      "    \"type\": \"url\",",
+      "    \"label\": \"${1:Link}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: video": {
+    "description": "Video setting",
+    "scope": "liquid",
+    "prefix": ">video",
+    "body": [
+      "  {",
+      "    \"type\": \"video\",",
+      "    \"label\": \"${1:Video}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}\"",
+      "  },",
+      "$0"
+    ]
+  },
+  "Shopify Input setting: video_url": {
+    "description": "Video URL setting",
+    "scope": "liquid",
+    "prefix": ">video_url",
+    "body": [
+      "  {",
+      "    \"type\": \"video_url\",",
+      "    \"label\": \"${1:Video}\",",
+      "    \"id\": \"${1/([^\\s])|(\\s)/${1:/downcase}${2:+_}/g}_url\"",
+      "    \"accept\": [\"mp4\"]",
+      "  },",
+      "$0"
+    ]
+  },
+
+  // Content
+  "Shopify Input content: Header": {
+    "description": "Header content",
+    "scope": "liquid",
+    "prefix": ">header",
+    "body": ["  {", "    \"type\": \"header\",", "    \"content\": \"${1:Header}\"", "  },", "$0"]
+  },
+  "Shopify Input content: paragraph": {
+    "description": "Paragraph content",
+    "scope": "liquid",
+    "prefix": ">paragraph",
+    "body": ["  {", "    \"type\": \"paragraph\",", "    \"content\": \"${1:Text}\"", "  },", "$0"]
+  }
+}

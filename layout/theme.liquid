@@ -9,7 +9,17 @@
 
     {%- capture prefix -%}{%- render 'asset-prefix' -%}{%- endcapture -%}
 
+    <script>
+      window.routes = {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_url: '{{ routes.cart_url }}',
+        cart_clear_url: '{{ routes.cart_clear_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+      };
+    </script>
+
     {%- # Scripts -%}
+    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'main.js' | prepend: prefix | asset_url }}" type="module" defer="defer"></script>
 
     {%- # Styles -%}
@@ -19,30 +29,57 @@
     {{- 'Inter-Regular.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: true -}}
     {{- 'Inter-Bold.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: true -}}
 
-    {%- # Preload images -%}
     <link
       rel="icon"
       href="{{ 'favicon.ico' | asset_url }}"
     >
   </head>
-  <body class="p-8 bg-gray-900 text-sm text-white">
-    <section class="space-y-6">
-      <h1 class="font-bold">Shopify Parcel</h1>
-      <p>
-        📂 <span class="bg-gray-700 w-fit rounded px-1 py-0.5">{{ prefix }}</span>
-      </p>
-      <ul class="text-white/50 [&>li]:before:content-['⏳'] [&>li]:before:mr-1.5 [&>li[data-active]]:text-white [&>li[data-active]]:before:content-['✅']">
-        <li class="css" data-active>
-          {{- 'CSS (Tailwind), <span class="text-white/50 css-imports">imports</span> and <span class="text-white/50 css-nesting">nesting</span>' -}}
-        </li>
-        <li class="js">JavaScript bundle</li>
-        <li class="js-dynamic">JavaScript dynamic import</li>
-        <li class="js-dynamic-module">
-          {{- 'JavaScript dynamic import from <span class="bg-gray-700 w-fit rounded px-1 py-0.5">node_modules</span>' }}
-        </li>
-      </ul>
-    </section>
+  <body class="text-sm">
+    <header class="space-y-4 bg-blue-200 p-6 lg:p-8">
+      <h1 class="font-bold">Demo: Components</h1>
+      <p>Simple ecommerce flow to demo JavaScript component strategies.</p>
+      <div class="flex gap-2 ">
+        <a href="/products/t-shirt" class="rounded-md bg-black px-3 py-2 text-white">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            data-slot="icon"
+            class="-mt-[0.25em] mr-[.5ch] inline-block size-4"
+          >
+            <path d="M2.879 7.121A3 3 0 0 0 7.5 6.66a2.997 2.997 0 0 0 2.5 1.34 2.997 2.997 0 0 0 2.5-1.34 3 3 0 1 0 4.622-3.78l-.293-.293A2 2 0 0 0 15.415 2H4.585a2 2 0 0 0-1.414.586l-.292.292a3 3 0 0 0 0 4.243ZM3 9.032a4.507 4.507 0 0 0 4.5-.29A4.48 4.48 0 0 0 10 9.5a4.48 4.48 0 0 0 2.5-.758 4.507 4.507 0 0 0 4.5.29V16.5h.25a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75v-3.5a.75.75 0 0 0-.75-.75h-2.5a.75.75 0 0 0-.75.75v3.5a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1 0-1.5H3V9.032Z" />
+          </svg>
+          {{- 'Product' -}}
+        </a>
+        <a
+          href="/cart"
+          class="rounded-md bg-black px-3 py-2 text-white"
+          onclick="event.preventDefault(); document.querySelector('cart-drawer').toggleAttribute('data-active', true);"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            data-slot="icon"
+            class="-mt-[0.25em] mr-[.5ch] inline-block size-4"
+          >
+            <path fill-rule="evenodd" d="M6 5v1H4.667a1.75 1.75 0 0 0-1.743 1.598l-.826 9.5A1.75 1.75 0 0 0 3.84 19H16.16a1.75 1.75 0 0 0 1.743-1.902l-.826-9.5A1.75 1.75 0 0 0 15.333 6H14V5a4 4 0 0 0-8 0Zm4-2.5A2.5 2.5 0 0 0 7.5 5v1h5V5A2.5 2.5 0 0 0 10 2.5ZM7.5 10a2.5 2.5 0 0 0 5 0V8.75a.75.75 0 0 1 1.5 0V10a4 4 0 0 1-8 0V8.75a.75.75 0 0 1 1.5 0V10Z" clip-rule="evenodd" />
+          </svg>
+          {{- 'Cart' -}}
+          <cart-count
+            class="hidden before:content-['('] after:content-[')'] data-[active]:inline"
+            {% if cart.item_count > 0 %}
+              data-active
+            {% endif %}
+          >
+            {{- cart.item_count -}}
+          </cart-count></a
+        >
+      </div>
+    </header>
 
-    {{ content_for_layout }}
+    <main class="p-6 lg:p-8">{{ content_for_layout }}</main>
+
+    {% section 'cart-drawer' %}
   </body>
 </html>
