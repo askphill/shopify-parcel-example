@@ -1,26 +1,26 @@
-<product-details class="space-y-4 block w-[min(100%,_25rem)]">
+<product-details class="block w-[min(100%,_25rem)] space-y-4">
   <h2 data-target="product-details.title" class="text-xl">
     {{ product.title }}
     ({{ product.selected_or_first_available_variant.title }})
   </h2>
-  <product-images class="block rounded-md overflow-hidden border-black/10 border">
+  <product-images class="block overflow-hidden rounded-md border border-black/10">
     <div class="splide visible w-full">
-      <div class="splide__track">
+      <div class="splide__track w-full">
         <ul class="splide__list w-full">
           <li
-            class="splide__slide w-full bg-white"
+            class="splide__slide w-full"
             data-variant="{{ product.selected_or_first_available_variant.id }}"
           >
             {{
               product.selected_or_first_available_variant.featured_image
               | image_url: width: 700
-              | image_tag: class: 'aspect-square size-full object-contain'
+              | image_tag: class: 'size-full aspect-square object-contain', preload: true
             }}
           </li>
           {% for image in product.images %}
             {% unless image == product.selected_or_first_available_variant.featured_image %}
               <li
-                class="splide__slide w-full bg-white"
+                class="splide__slide w-full"
                 {% if image.attached_to_variant? %}
                   data-variant="{{ image.variants.first.id }}"
                 {% endif %}
@@ -38,12 +38,12 @@
       {{ product.selected_or_first_available_variant.price | money }}
     </span>
 
-    <div class="gap-2 flex items-center">
-      <variant-select class="inline-flex gap-2 bg-black/10 py-1.5 px-1.5 rounded-full items-center">
+    <div class="flex items-center gap-2">
+      <variant-select class="inline-flex items-center gap-2 rounded-full bg-black/10 px-1.5 py-1.5">
         {%- for v in product.variants -%}
           <fieldset class="inline" form="product-form">
             <input
-              class="hidden peer"
+              class="peer hidden"
               type="radio"
               id="variant-{{ forloop.index0 }}"
               name="variant"
@@ -59,7 +59,7 @@
               for="variant-{{ forloop.index0 }}"
               style="background-color: {{ v.option1 }};"
               role="button"
-              class="block aspect-square rounded-full h-[1.2em] peer-checked:outline outline-offset-1 outline-1"
+              class="block aspect-square h-[1.2em] rounded-full outline-1 outline-offset-1 peer-checked:outline"
             >
             </label>
           </fieldset>
@@ -72,7 +72,7 @@
 
           <button
             type="submit"
-            class="px-3 py-2 bg-black text-white rounded-md flex items-center justify-center relative group/product-form text-center group-data-[loading]/product-form:pointer-events-none"
+            class="group/product-form relative flex items-center justify-center rounded-md bg-black px-3 py-2 text-center text-white group-data-[loading]/product-form:pointer-events-none"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +81,7 @@
               data-slot="icon"
               stroke-width="1.5"
 
-              class="size-4 hidden group-data-[loading]/product-form:inline-block animate-spin -mt-[0.25em] mr-[.5ch]"
+              class="-mt-[0.25em] mr-[.5ch] hidden size-4 animate-spin group-data-[loading]/product-form:inline-block"
             >
               <path fill-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 0 1-9.201 2.466l-.312-.311h2.433a.75.75 0 0 0 0-1.5H3.989a.75.75 0 0 0-.75.75v4.242a.75.75 0 0 0 1.5 0v-2.43l.31.31a7 7 0 0 0 11.712-3.138.75.75 0 0 0-1.449-.39Zm1.23-3.723a.75.75 0 0 0 .219-.53V2.929a.75.75 0 0 0-1.5 0V5.36l-.31-.31A7 7 0 0 0 3.239 8.188a.75.75 0 1 0 1.448.389A5.5 5.5 0 0 1 13.89 6.11l.311.31h-2.432a.75.75 0 0 0 0 1.5h4.243a.75.75 0 0 0 .53-.219Z" clip-rule="evenodd" />
             </svg>
@@ -91,7 +91,7 @@
 
               fill="currentColor"
               data-slot="icon"
-              class="size-4 inline-block -mt-[0.25em] mr-[.5ch] group-data-[loading]/product-form:hidden"
+              class="-mt-[0.25em] mr-[.5ch] inline-block size-4 group-data-[loading]/product-form:hidden"
             >
               <path d="M1 1.75A.75.75 0 0 1 1.75 1h1.628a1.75 1.75 0 0 1 1.734 1.51L5.18 3a65.25 65.25 0 0 1 13.36 1.412.75.75 0 0 1 .58.875 48.645 48.645 0 0 1-1.618 6.2.75.75 0 0 1-.712.513H6a2.503 2.503 0 0 0-2.292 1.5H17.25a.75.75 0 0 1 0 1.5H2.76a.75.75 0 0 1-.748-.807 4.002 4.002 0 0 1 2.716-3.486L3.626 2.716a.25.25 0 0 0-.248-.216H1.75A.75.75 0 0 1 1 1.75ZM6 17.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM15.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
             </svg>

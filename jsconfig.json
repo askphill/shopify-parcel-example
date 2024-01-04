@@ -5,7 +5,7 @@
     "moduleResolution": "bundler",
     "paths": {
       "@/*": ["*"]
-    },
-    "allowJs": true
-  }
+    }
+  },
+  "include": ["src/**/*", "assets/global.js"]
 }

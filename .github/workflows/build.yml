@@ -17,6 +17,7 @@ on:
 
 jobs:
   build:
+    if: "!(github.actor contains 'shopify[bot]' || github.actor contains 'esbuild[bot]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -28,8 +29,8 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
-      - name: Commit and Push changes
+      - name: Commit and push changes
         uses: EndBug/add-and-commit@v7.2.1
         with:
-          author_name: '📦 Shopify Parcel'
-          message: 'Build'
+          author_name: 'esbuild[bot]'
+          message: 'chore: build'

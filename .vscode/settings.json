@@ -12,10 +12,9 @@
     ],
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "javascript.preferences.importModuleSpecifier": "non-relative", // use alias (@/)
+  "javascript.preferences.importModuleSpecifierEnding": "minimal", // no extension
   "emmet.includeLanguages": {
-    "liquid": "html",
-    "postcss": "css"
-  },
-  "typescript.preferences.importModuleSpecifierEnding": "minimal",
-  "typescript.preferences.importModuleSpecifier": "non-relative"
+    "liquid": "html"
+  }
 }

@@ -1,12 +1,12 @@
 node_modules/
-.parcel-cache/
 .vscode/
 src/
+*.map
 
 package.json
 package-lock.json
-.parcelrc
 .postcssrc
 tailwind.config.js
 .gitignore
-tsconfig.json
+jsconfig.json
+build.mjs

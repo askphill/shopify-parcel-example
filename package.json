@@ -1,21 +1,23 @@
 {
   "type": "module",
-  "name": "basic",
   "scripts": {
-    "start": "shopify theme dev --store shoparcel -x *.css.map",
-    "build": "shopify-parcel build",
-    "build:dev": "shopify-parcel build:dev",
-    "watch": "shopify-parcel watch"
+    "dev": "npm run watch & npm run start",
+    "start": "shopify theme dev --store shoparcel --open",
+    "watch": "node build.mjs --watch",
+    "build": "node build.mjs"
   },
-  "shopify-parcel": {
-    "entries": [
-      "src/main.ts",
-      "src/main.css"
-    ]
-  },
+  "entries": [
+    "src/main.js",
+    "src/main.css"
+  ],
+  "browserslist": [
+    "last 2 versions and not dead"
+  ],
   "devDependencies": {
-    "@askphill/shopify-parcel": "^1.0.0",
     "@shopify/prettier-plugin-liquid": "^1.4.0",
+    "autoprefixer": "^10.4.16",
+    "esbuild": "^0.19.11",
+    "esbuild-postcss": "^0.0.4",
     "prettier": "3.0",
     "prettier-plugin-tailwindcss": "^0.5.9",
     "tailwindcss": "^3.4.0"

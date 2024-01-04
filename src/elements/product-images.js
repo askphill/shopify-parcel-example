@@ -2,8 +2,11 @@ customElements.define(
   'product-images',
   class ProductImages extends HTMLElement {
     async connectedCallback() {
+      await inView(this);
+
       new (await import('@splidejs/splide')).default(this.querySelector('.splide'), {
         arrows: false,
+        pagination: false,
       }).mount();
 
       this.unsubscribe = subscribe('variantUpdate', (sections) => {
