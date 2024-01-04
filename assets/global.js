@@ -77,6 +77,11 @@ function publish(eventName, data) {
  * Lazy loading helpers, based on https://github.com/11ty/is-land/blob/main/is-land.js
  */
 
+/**
+ * @param {HTMLElement} element
+ * @param {IntersectionObserverInit} options
+ * @returns {Promise<void>}
+ */
 function visible(element, options = {}) {
   if (!('IntersectionObserver' in window)) return; // runs immediately
 
