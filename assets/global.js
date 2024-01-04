@@ -74,27 +74,22 @@ function publish(eventName, data) {
 }
 
 /**
- * DOM
+ * Lazy loading helpers, based on https://github.com/11ty/is-land/blob/main/is-land.js
  */
 
-/**
- * @param {HTMLElement} element
- * @param {IntersectionObserverInit} options
- * @returns {Promise<void>}
- */
-function inView(element, options) {
+function visible(element, options = {}) {
+  if (!('IntersectionObserver' in window)) return; // runs immediately
+
   return new Promise((resolve) => {
-    const observer = new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            resolve();
-            observer.unobserve(entry.target);
-          }
-        });
+    let observer = new IntersectionObserver(
+      (entries) => {
+        let [entry] = entries;
+        if (entry.isIntersecting) {
+          observer.unobserve(entry.target);
+          resolve();
+        }
       },
       {
-        rootMargin: '0px',
         threshold: 0.1,
         ...options,
       },

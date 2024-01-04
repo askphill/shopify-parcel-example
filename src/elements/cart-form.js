@@ -27,11 +27,13 @@ customElements.define(
                 target.prepend(item);
               }
             } else {
-              item.querySelectorAll('[data-target^="cart-form.item."]').forEach((e) => {
-                this.querySelector(`[data-key="${item.dataset.key}"] [data-target="${e.dataset.target}"]`).replaceWith(
-                  e,
+              item
+                .querySelectorAll('[data-target^="cart-form.item."]')
+                .forEach((e) =>
+                  this.querySelector(
+                    `[data-key="${item.dataset.key}"] [data-target="${e.dataset.target}"]`,
+                  ).replaceWith(e),
                 );
-              });
 
               this.querySelector(`[data-target="cart-form.item"][data-key="${item.dataset.key}"]`).toggleAttribute(
                 'data-loading',

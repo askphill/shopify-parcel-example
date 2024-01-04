@@ -1,13 +1,18 @@
 customElements.define(
   'product-images',
   class ProductImages extends HTMLElement {
-    async connectedCallback() {
-      await inView(this);
+    connectedCallback() {
+      // wrapped in function to not block main thread
+      (async () => {
+        // when in viewport
+        await visible(this);
 
-      new (await import('@splidejs/splide')).default(this.querySelector('.splide'), {
-        arrows: false,
-        pagination: false,
-      }).mount();
+        // lazy load splide
+        new (await import('@splidejs/splide')).default(this.querySelector('.splide'), {
+          arrows: false,
+          pagination: false,
+        }).mount();
+      })();
 
       this.unsubscribe = subscribe('variantUpdate', (sections) => {
         const html = new DOMParser()
